@@ -174,8 +174,9 @@ public class Player : IRecieveBeats
         else if (!okAngle || !doAimLogic)
         {
             aimHand.SetActive(false);
-            charAnimation.SetAnimState(CharacterAnimationBase.AnimationState.Idle);
-            charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.None);
+            //charAnimation.SetAnimState(CharacterAnimationBase.AnimationState.Idle);
+            if(charAnimation.pState != PlayerAnimation.PlayerAnimState.None)
+                charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.None);
         }
     }
 
@@ -203,7 +204,9 @@ public class Player : IRecieveBeats
         aimHand.SetActive(false);
         crossHair.SetActive(false);
         doAimLogic = false;
-        charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.None);
+
+        if(charAnimation.pState != PlayerAnimation.PlayerAnimState.None)
+            charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.None);
     }
 
     private void ShootCheck()

@@ -10,7 +10,7 @@ public class PlayerAnimation : CharacterAnimationBase
 
     public float animationWalkspeedMultiplier = 1;
     public float pY = 0;
-    private float pYStart = 0;
+    [SerializeField]private float pYStart = 0;
     public float pYSend = 0;
     public bool iFrames;
     public enum PlayerAnimState
@@ -62,6 +62,7 @@ public class PlayerAnimation : CharacterAnimationBase
 
     protected override void TriggerCycle()
     {
+        Debug.Log("cycle");
         float startTime = 1 - Conductor.instance.timeUntilNext;
         //check for playerspecific actions
         switch (pState)
