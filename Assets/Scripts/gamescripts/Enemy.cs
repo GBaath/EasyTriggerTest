@@ -2,12 +2,16 @@
 
 public class Enemy : GeneralObject {
 
+    public const string enemyTag = "Enemy";
+
     SpriteRenderer animatorSprite;
 
     EnemyAnimation charAnimation;
 
     GameObject animationComponent;
     GameObject gameObject;
+
+    public CapsuleCollider2D collider;
 
     float speed = .4f;
 
@@ -33,6 +37,15 @@ public class Enemy : GeneralObject {
         {
             gameObject = gfx.MakeGameObject("Enemy", sprites[22], x, y, "Enemy");
         }
+
+
+        gameObject.tag = enemyTag;
+
+        collider = gameObject.AddComponent<CapsuleCollider2D>();
+
+        //magic size numbers (:
+        collider.offset = new Vector2(-2, 17);
+        collider.size = new Vector2(10, 40);
 
         SetDirection(-1);
     }
@@ -78,7 +91,10 @@ public class Enemy : GeneralObject {
 
     }
 
-
+    public void Hit()
+    {
+        Debug.Log("HIT");
+    }
 
     public override void Kill() {
        

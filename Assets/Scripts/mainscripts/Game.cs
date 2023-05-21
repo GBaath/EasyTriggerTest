@@ -19,7 +19,7 @@ public class Game : MonoBehaviour {
     float camX;
     float camY;
 
-    Player player;
+    public Player player;
 
     bool leftKey, rightKey, jumpKey, duckKey, shootKey, aimKey;
     int playerHorizontal, playerVertical;
@@ -32,7 +32,7 @@ public class Game : MonoBehaviour {
     bool inputOnBeat;
 
 
-    List<GeneralObject> gameObjects;
+    public List<GeneralObject> gameObjects;
     int gameObjectLength;
 
 
@@ -138,6 +138,8 @@ public class Game : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.W))    { jumpKey   = true; }
         if (Input.GetKeyDown(KeyCode.S))  { duckKey   = true; }
         if (Input.GetKeyDown(KeyCode.Mouse0))          { shootKey  = true; }
+
+        //TODO maybe put this out of beat sync
         if (Input.GetKeyDown(KeyCode.Mouse1)) { aimKey = true; }
        
         

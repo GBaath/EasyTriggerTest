@@ -62,7 +62,6 @@ public class PlayerAnimation : CharacterAnimationBase
 
     protected override void TriggerCycle()
     {
-        Debug.Log("cycle");
         float startTime = 1 - Conductor.instance.timeUntilNext;
         //check for playerspecific actions
         switch (pState)
@@ -93,6 +92,9 @@ public class PlayerAnimation : CharacterAnimationBase
                 break;
         }
 
-
+    }
+    public void AnimationShoot()
+    {
+        Game.instance.player.Shoot();
     }
 }

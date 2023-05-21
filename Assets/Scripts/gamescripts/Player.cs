@@ -149,9 +149,21 @@ public class Player : IRecieveBeats
 
         
     }
-    void Shoot()
+    //call this multiple times in animation
+    public void Shoot()
     {
+        //These should be place in gamemanager list if nr of enemes ever increase
+        foreach (Enemy enemy in Game.instance.gameObjects)
+        {
+            Debug.Log(enemy);
 
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (enemy.collider.bounds.Contains(pos))
+                enemy.Hit();
+
+        }
+        
     }
     void Evade(bool okAngle)
     {
@@ -215,7 +227,7 @@ public class Player : IRecieveBeats
             return;
 
         charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.Fire);
-        Shoot(); 
+        //Shoot(); 
     }
 
     private void JumpCheck()
