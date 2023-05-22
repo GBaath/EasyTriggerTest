@@ -112,15 +112,20 @@ public class Gfx : MonoBehaviour
         return o;
 
     }
-    public GameObject AddGameObjectWithAnimator<T>(string inName, Sprite inSprite, out SpriteRenderer renderer, Transform parent, RuntimeAnimatorController animatorController, T charAnim, float inX = 0, float inY = 0, string inLayerName = "GameObjects",GameObject customChild = null) where T : CharacterAnimationBase
+    public GameObject AddGameObjectWithAnimator<T>(string inName, Sprite inSprite, out SpriteRenderer renderer, Transform parent, RuntimeAnimatorController animatorController, T charAnim, float inX = 0, float inY = 0, string inLayerName = "GameObjects",GameObject[] customChildren = null) where T : CharacterAnimationBase
     {
 
         GameObject o = new GameObject(inName);
         SpriteRenderer sr = o.AddComponent<SpriteRenderer>();
         Animator an = o.AddComponent<Animator>();
         //need to set customChild parameter here, refs in animations won't update if added later because unity reasons
-        if (customChild)
-            customChild.transform.parent = o.transform;
+        foreach (var child in customChildren)
+        {
+            if (child != null) 
+            {
+                child.transform.parent = o.transform;
+            }
+        }
 
         o.AddComponent<T>();
 

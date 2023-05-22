@@ -35,6 +35,8 @@ public class Main : MonoBehaviour {
         }
         
         cam = GetComponent<Camera>();
+        //the canvas
+        transform.GetChild(0).gameObject.SetActive(true);
 
         go = new GameObject("Main");
 

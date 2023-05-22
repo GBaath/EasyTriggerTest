@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour {
     public static Game instance;
@@ -54,8 +55,22 @@ public class Game : MonoBehaviour {
 
         player = new Player(main, main.playerSpawwnCoordinates.x, main.playerSpawwnCoordinates.y);
 
-        AddLevelObject(new Enemy(main, 740, 624));
-        AddLevelObject(new Enemy(main, 372, 624));
+        Enemy en1 = new Enemy(main, 372, 624);
+        Enemy en2 = new Enemy(main, 740, 624);
+        AddLevelObject(en1);
+        AddLevelObject(en2);
+
+        int i = 1;
+        foreach (Enemy en in gameObjects)
+        {
+            en.linkedSlider = GameObject.Find("EnemySlider" + i.ToString()).GetComponent<Slider>();
+            en.enemyIndex = i - 1;
+
+            //displace for right enemy
+            if (en.enemyIndex == 1) { en.laserAim.transform.localScale = new Vector3(-.5f, 80, 1); }
+            en.AddToList();
+            i++;   
+        }
 
         gameStatus  = PLAY;
 
@@ -113,21 +128,6 @@ public class Game : MonoBehaviour {
         if (leftKey) { playerHorizontal-=1; }
         if (rightKey) { playerHorizontal+=1; }
 
-
-        //dont need these when 1 frame inputs
-        /*
-        if (shootKey) {
-            if (playerShootRelease) {
-                playerShootRelease = false;
-                playerShoot = true;
-            }
-            
-        } else {
-            if (!playerShootRelease) {
-                playerShootRelease = true;
-            }
-        playerShoot = false;
-        }*/
 
 
 

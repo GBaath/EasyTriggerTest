@@ -57,7 +57,10 @@ public class Player : IRecieveBeats
             
             //setup animation sprites
             aimHand = gfx.MakeGameObject("AimHand", handSprite,x,y,"GameObjectsFront");
-            animationComponent = gfx.AddGameObjectWithAnimator("P_Animator", sprites[22], out animatorSprite, gameObject.transform,main.playerAnimatorController, charAnimation,default,default,"GameObjects",aimHand);
+            GameObject[] children = new GameObject[1];
+            children[0] = aimHand;
+
+            animationComponent = gfx.AddGameObjectWithAnimator("P_Animator", sprites[22], out animatorSprite, gameObject.transform,main.playerAnimatorController, charAnimation,default,default,"GameObjects",children);
             charAnimation = animationComponent.GetComponent<PlayerAnimation>();
             
             aimHand.transform.parent = animationComponent.transform;
@@ -155,10 +158,11 @@ public class Player : IRecieveBeats
         //These should be place in gamemanager list if nr of enemes ever increase
         foreach (Enemy enemy in Game.instance.gameObjects)
         {
-            Debug.Log(enemy);
 
             Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+
+            //could be done with ray overlapcheck, but then game is 2 ez
             if (enemy.collider.bounds.Contains(pos))
                 enemy.Hit();
 
