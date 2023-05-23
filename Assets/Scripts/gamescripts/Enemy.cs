@@ -158,6 +158,7 @@ public class Enemy : GeneralObject, IRecieveBeats
             }
         }
     }
+    
 
 
 
@@ -168,19 +169,23 @@ public class Enemy : GeneralObject, IRecieveBeats
     public void Hit()
     {
         hp--;
-        if(linkedSlider)
-            linkedSlider.value = hp;
-        if(hp <= 0)
+        if (linkedSlider)
         {
-            linkedSlider.gameObject.SetActive(false);
-            linkedSlider = null;
-            Kill();
+            linkedSlider.value = hp;
+            if(hp <= 0)
+            {
+                linkedSlider.gameObject.SetActive(false);
+                linkedSlider = null;
+                Kill();
+            }
         }
     }
 
     public override void Kill() 
     {
         charAnimation.SetAnimState(CharacterAnimationBase.AnimationState.Die);
+        charAnimation.SetEnemyAnimationState(EnemyAnimation.EnemyAnimationState.none);
+        charAnimation.disabled = true;
     }
     #endregion
     #region Beats
@@ -194,7 +199,7 @@ public class Enemy : GeneralObject, IRecieveBeats
             return;
         }
 
-        if (Random.Range(0, 100) > 50)
+        if (Random.Range(0, 100) > 25)
             doAction = true;
         if(Random.Range(0, 100) < 50)
           doMainAction = true;

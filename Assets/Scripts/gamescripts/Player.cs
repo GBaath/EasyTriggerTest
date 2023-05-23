@@ -23,7 +23,7 @@ public class Player : IRecieveBeats
     GameObject aimHand;
     GameObject crossHair;
 
-    Vector3 playerPosition;
+    public Vector3 playerPosition;
 
     float x;
     float y;
@@ -32,6 +32,8 @@ public class Player : IRecieveBeats
 
     bool doAimLogic;
     bool iFrames;
+
+    int hp = 3;
 
 
     public Player (Main inMain, int posX, int posY) {
@@ -194,6 +196,11 @@ public class Player : IRecieveBeats
             if(charAnimation.pState != PlayerAnimation.PlayerAnimState.None)
                 charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.None);
         }
+    }
+    public void Hit()
+    {
+        Debug.Log("hit");
+        hp--;
     }
 
 

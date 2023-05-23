@@ -50,6 +50,8 @@ public class EnemyAnimation : CharacterAnimationBase
 
     protected override void TriggerCycle()
     {
+        if(disabled) 
+            return;
         float startTime = 1 - Conductor.instance.timeUntilNext;
         //check for playerspecific actions
         switch (eState)
@@ -79,8 +81,25 @@ public class EnemyAnimation : CharacterAnimationBase
                 eState = EnemyAnimationState.none;
                 break;
             case EnemyAnimationState.none:
+                base.TriggerCycle();
                 break;
         }
+    }
+
+    //used by grenade anim
+    public void DealDamageAtYLevel(int y)
+    {
+        if ((int)Game.instance.player.playerPosition.y == y)
+            Game.instance.player.Hit();
+
+    }
+    //used by shootanim
+    public void DealDamageAtMyYLevel()
+    {
+        //wonderful float difs because funny animator likes to skip values sometimes
+        if (Mathf.FloorToInt(Game.instance.player.playerPosition.y) == (int)transform.parent.localPosition.y+(int)transform.localPosition.y)
+            Game.instance.player.Hit();
+
     }
 
 }

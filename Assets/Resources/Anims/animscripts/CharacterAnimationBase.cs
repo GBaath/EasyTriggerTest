@@ -16,6 +16,8 @@ public class CharacterAnimationBase : MonoBehaviour, IRecieveBeats
     protected float playSpeed = 1;
     protected Animator animator;
 
+    public bool disabled;
+
 
     public enum AnimationState
     {
@@ -59,6 +61,8 @@ public class CharacterAnimationBase : MonoBehaviour, IRecieveBeats
 
     virtual protected void TriggerCycle()
     {
+        if (disabled)
+            return;
         float startTime = 1-Conductor.instance.timeUntilNext;
         switch (state)
         {
