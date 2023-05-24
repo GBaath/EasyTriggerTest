@@ -21,6 +21,7 @@ public class Game : MonoBehaviour {
     float camY;
 
     public Player player;
+    public Collider2D startCollider;
 
     bool leftKey, rightKey, jumpKey, duckKey, shootKey, aimKey;
     int playerHorizontal, playerVertical;
@@ -74,6 +75,8 @@ public class Game : MonoBehaviour {
             en.AddToList();
             i++;
         }
+        //shoot this to start
+        startCollider = GameObject.Find("StartButton").GetComponent<Collider2D>();
 
         gameStatus  = PLAY;
 
@@ -194,6 +197,12 @@ public class Game : MonoBehaviour {
 
     }
 
-
+    public void StartEnemies()
+    {
+        foreach (Enemy enemy in gameObjects)
+        {
+            enemy.active = true;
+        }
+    }
 
 }

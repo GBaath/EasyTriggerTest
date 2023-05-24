@@ -166,18 +166,20 @@ public class Player : IRecieveBeats
     //call this multiple times in animation
     public void Shoot()
     {
+        Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //These should be place in gamemanager list if nr of enemes ever increase
         foreach (Enemy enemy in Game.instance.gameObjects)
         {
-
-            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-
             //could be done with ray overlapcheck, but then game is 2 ez
             if (enemy.collider.bounds.Contains(pos))
                 enemy.Hit();
-
         }
+
+        if (Game.instance.startCollider.bounds.Contains(pos))
+        {
+            Game.instance.StartEnemies();
+        }
+
         
     }
     void Evade(bool okAngle)

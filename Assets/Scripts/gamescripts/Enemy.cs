@@ -23,11 +23,14 @@ public class Enemy : GeneralObject, IRecieveBeats
 
     float speed = .4f;
 
+    int startCooldown = 4;
     int hp = 20;
     public int enemyIndex = 0;
 
     bool doAction;
     bool doMainAction;
+
+    public bool active;
 
 
 
@@ -191,7 +194,14 @@ public class Enemy : GeneralObject, IRecieveBeats
     #region Beats
     public void BeatUpdate()
     {
-        //if queued, do else 50% next
+        if (!active)
+            return;
+        if (startCooldown > 0)
+        {
+            startCooldown--;
+            return;
+        }
+        //if queued, else do % next
         if (doAction)
         {
             DoAction();
