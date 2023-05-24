@@ -54,7 +54,9 @@ public class Game : MonoBehaviour {
         gameObjectLength = 0;
 
         player = new Player(main, main.playerSpawwnCoordinates.x, main.playerSpawwnCoordinates.y);
+        player.hpIcons = FindObjectOfType<HpIcons>();
 
+        //magic hardcoded spawnposition values
         Enemy en1 = new Enemy(main, 372, 624);
         Enemy en2 = new Enemy(main, 740, 624);
         AddLevelObject(en1);
@@ -63,13 +65,14 @@ public class Game : MonoBehaviour {
         int i = 1;
         foreach (Enemy en in gameObjects)
         {
+            //set slider refs
             en.linkedSlider = GameObject.Find("EnemySlider" + i.ToString()).GetComponent<Slider>();
             en.enemyIndex = i - 1;
 
-            //displace for right enemy
+            //displace laser for right enemy
             if (en.enemyIndex == 1) { en.laserAim.transform.localScale = new Vector3(-.5f, 80, 1); }
             en.AddToList();
-            i++;   
+            i++;
         }
 
         gameStatus  = PLAY;

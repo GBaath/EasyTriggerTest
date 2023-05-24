@@ -1015,11 +1015,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 174
-        y: 89
+        y: 94
         width: 41
-        height: 17
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        height: 12
+      alignment: 9
+      pivot: {x: 0.5, y: 0.15}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1055,7 +1055,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: bee9ed7bed372ba4ea08eb7462b1b65f
     internalID: 0
     vertices: []
     indices: 

@@ -118,6 +118,8 @@ public class Gfx : MonoBehaviour
         GameObject o = new GameObject(inName);
         SpriteRenderer sr = o.AddComponent<SpriteRenderer>();
         Animator an = o.AddComponent<Animator>();
+        o.AddComponent<AnimSoundPlayer>();
+
         //need to set customChild parameter here, refs in animations won't update if added later because unity reasons
         foreach (var child in customChildren)
         {

@@ -16,6 +16,7 @@ public class Player : IRecieveBeats
     SpriteRenderer handRenderer;
 
     PlayerAnimation charAnimation;
+    public HpIcons hpIcons;
 
     GameObject gameObject;
     GameObject animationComponent;
@@ -32,6 +33,10 @@ public class Player : IRecieveBeats
 
     bool doAimLogic;
     bool iFrames;
+    bool queueAnim;
+    bool dead;
+
+    PlayerAnimation.PlayerAnimState queuedState;
 
     int hp = 3;
 
@@ -78,6 +83,8 @@ public class Player : IRecieveBeats
 
             //magic numbers for placement on sprite
             aimHand.transform.localPosition = new Vector3(5, 27);
+
+            AddToList();
         }
         else //default code here
         {
@@ -88,7 +95,9 @@ public class Player : IRecieveBeats
     }
 
     public void FrameEvent(int inMoveX, int inMoveY, bool inAim, bool inShoot, float inSpeed=1, float yDif = 0) 
-    {        
+    {
+        if (dead)
+            return;
 
         x += inMoveX*inSpeed;
         y = startY - yDif;
@@ -199,8 +208,23 @@ public class Player : IRecieveBeats
     }
     public void Hit()
     {
-        Debug.Log("hit");
+        if (iFrames)
+            return;
+
         hp--;
+
+        //could probably be done with a static instance instead of hpicon reference
+        hpIcons.UpdateHp(hp);
+
+        if(hp <= 0)
+        {
+            charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.None);
+            charAnimation.SetAnimState(CharacterAnimationBase.AnimationState.Die);
+            charAnimation.disabled = true;
+            dead = true;
+
+            Camera.main.GetComponent<MainCameraScript>().FadeOut();
+        }
     }
 
 
@@ -237,7 +261,19 @@ public class Player : IRecieveBeats
         if (charAnimation.pState != PlayerAnimation.PlayerAnimState.Aim && charAnimation.pState != PlayerAnimation.PlayerAnimState.Fire)
             return;
 
-        charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.Fire);
+        //if early input
+        if (Conductor.instance.timeUntilNext < .2f)
+        {
+            queueAnim = true;
+            queuedState = PlayerAnimation.PlayerAnimState.Fire;
+        }
+        //late input
+        else
+        {
+            charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.Fire);
+        }
+
+       
         //Shoot(); 
     }
 
@@ -285,12 +321,33 @@ public class Player : IRecieveBeats
     #region "BeatEvents"
     public void BeatUpdate()
     {
-        throw new System.NotImplementedException();
+        if (!queueAnim)
+            return;
+
+        queueAnim = false;
+
+        //only really relevant for fire cus of audiosyncing
+        switch (queuedState)
+        {
+            case PlayerAnimation.PlayerAnimState.None:
+                break;
+            case PlayerAnimation.PlayerAnimState.Aim:
+                break;
+            case PlayerAnimation.PlayerAnimState.Fire:
+            charAnimation.SetPlayerAnimState(PlayerAnimation.PlayerAnimState.Fire);
+                break;
+            case PlayerAnimation.PlayerAnimState.Evade:
+                break;
+            default:
+                break;
+        }
+        queuedState = 0;
+
     }
 
     public void OffBeatUpdate()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void AddToList()

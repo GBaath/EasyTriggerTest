@@ -13,6 +13,7 @@ public class PlayerAnimation : CharacterAnimationBase
     [SerializeField]private float pYStart = 0;
     public float pYSend = 0;
     public bool iFrames;
+
     public enum PlayerAnimState
     {
         None,
@@ -56,12 +57,13 @@ public class PlayerAnimation : CharacterAnimationBase
 
         if(state == AnimationState.Jump ||  state == AnimationState.Drop)
         {
-            Game.instance.playerYMove = pYSend + pY;
+            Mathf.Clamp(Game.instance.playerYMove = pYSend + pY, -688, -559);
         }
     }
 
     protected override void TriggerCycle()
     {
+        if (disabled) return;
         float startTime = 1 - Conductor.instance.timeUntilNext;
         //check for playerspecific actions
         switch (pState)

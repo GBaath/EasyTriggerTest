@@ -71,7 +71,7 @@ public class Enemy : GeneralObject, IRecieveBeats
 
         gameObject.tag = enemyTag;
 
-        collider = gameObject.AddComponent<CapsuleCollider2D>();
+        collider = animationComponent.AddComponent<CapsuleCollider2D>();
 
         //magic size numbers (:
         collider.offset = new Vector2(-2, 17);
