@@ -23,7 +23,7 @@ public class Enemy : GeneralObject, IRecieveBeats
 
     float speed = .4f;
 
-    int startCooldown = 4;
+    int startCooldown = 1;
     int hp = 20;
     public int enemyIndex = 0;
 

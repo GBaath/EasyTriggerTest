@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UIElements;
-
-public class Player : IRecieveBeats 
+public class Player : IRecieveBeats
 {
 
     Main main;
@@ -15,6 +14,7 @@ public class Player : IRecieveBeats
     SpriteRenderer animatorSprite;
     SpriteRenderer handRenderer;
 
+    PlayerAnimation.PlayerAnimState queuedState;
     PlayerAnimation charAnimation;
     public HpIcons hpIcons;
 
@@ -23,6 +23,8 @@ public class Player : IRecieveBeats
     
     GameObject aimHand;
     GameObject crossHair;
+
+
 
     public Vector3 playerPosition;
 
@@ -36,9 +38,8 @@ public class Player : IRecieveBeats
     bool queueAnim;
     bool dead;
 
-    PlayerAnimation.PlayerAnimState queuedState;
-
     int hp = 3;
+
 
 
     public Player (Main inMain, int posX, int posY) {
@@ -47,6 +48,7 @@ public class Player : IRecieveBeats
         game = main.game;
         gfx  = main.gfx;
         snd  = main.snd;
+
 
         sprites = gfx.GetLevelSprites("Players/Player1");
         handSprite = gfx.GetLevelSprites("NewArt/Sprites_Edited")[1];
@@ -171,13 +173,19 @@ public class Player : IRecieveBeats
         foreach (Enemy enemy in Game.instance.gameObjects)
         {
             //could be done with ray overlapcheck, but then game is 2 ez
-            if (enemy.collider.bounds.Contains(pos))
+            if (enemy.collider.bounds.Contains(pos)&&enemy.active)
+            {
                 enemy.Hit();
+                GameObject.Destroy(GameObject.Instantiate(Game.instance.explosionFX, pos, Quaternion.identity),.2f);
+            }
         }
 
+        if (!Game.instance.startCollider)
+            return;
         if (Game.instance.startCollider.bounds.Contains(pos))
         {
             Game.instance.StartEnemies();
+            GameObject.Destroy(Game.instance.startCollider.gameObject);
         }
 
         
@@ -214,6 +222,11 @@ public class Player : IRecieveBeats
             return;
 
         hp--;
+
+        var expl = GameObject.Instantiate(Game.instance.explosionFX,charAnimation.transform);
+        expl.transform.localPosition = Vector3.up*10;
+        expl.transform.localScale = Vector3.one * .5f;
+        GameObject.Destroy(expl, .2f);
 
         //could probably be done with a static instance instead of hpicon reference
         hpIcons.UpdateHp(hp);

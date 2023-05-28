@@ -11,6 +11,9 @@ public class Game : MonoBehaviour {
     Gfx gfx;
     Snd snd;
 
+
+    public GameObject explosionFX;
+
     static string PLAY = "play";
 
     string gameStatus;
@@ -56,6 +59,8 @@ public class Game : MonoBehaviour {
 
         player = new Player(main, main.playerSpawwnCoordinates.x, main.playerSpawwnCoordinates.y);
         player.hpIcons = FindObjectOfType<HpIcons>();
+
+        explosionFX = Resources.Load<GameObject>("Anims/ExplosionFX");
 
         //magic hardcoded spawnposition values
         Enemy en1 = new Enemy(main, 372, 624);
@@ -145,9 +150,11 @@ public class Game : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.S))  { duckKey   = true; }
         if (Input.GetKeyDown(KeyCode.Mouse0))          { shootKey  = true; }
 
-        //TODO maybe put this out of beat sync
-        if (Input.GetKeyDown(KeyCode.Mouse1)) { aimKey = true; }
-       
+        //can maybe put this out of beat sync
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            aimKey = true;
+        }
         
         
         playerVertical = 0;
